@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#060a1c">
+<title>A little universe, made for you ✦</title>
+<meta property="og:title" content="A little universe, made for you ✦">
+<meta property="og:description" content="Open your surprise, Ipshita.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌙</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <radialGradient id="pg" cx="50%" cy="85%" r="85%"><stop offset="0" stop-color="#ff8fc6"/><stop offset="1" stop-color="#ffe6f3"/></radialGradient>
+  <symbol id="fl" viewBox="-50 -50 100 100"><g fill="url(#pg)" stroke="#fff" stroke-opacity=".4" stroke-width="1">
+    <ellipse cy="-25" rx="15" ry="25"/><ellipse cy="-25" rx="15" ry="25" transform="rotate(72)"/><ellipse cy="-25" rx="15" ry="25" transform="rotate(144)"/>
+    <ellipse cy="-25" rx="15" ry="25" transform="rotate(216)"/><ellipse cy="-25" rx="15" ry="25" transform="rotate(288)"/></g>
+    <circle r="8" fill="#ffd86b"/><circle r="3" cx="-2" cy="-2" fill="#fff6c9"/></symbol>
+</defs></svg>
+
+<div class="aurora a1"></div><div class="aurora a2"></div><div class="aurora a3"></div>
+<div class="rays"></div>
+<canvas id="sky"></canvas>
+
+<section class="screen on" id="s1">
+  <div class="inner">
+    <div class="moon"><i class="disc"></i></div>
+    <h1 class="title"><span data-split="words">A little universe, made for you</span></h1>
+    <button class="btn up" style="--d:1.8s" data-go="s2">Open your surprise ✦</button>
+  </div>
+</section>
+
+<section class="screen" id="s2">
+  <div class="inner">
+    <h1 class="hb"><span class="line" data-split="chars">HAPPY BIRTHDAY,</span><span class="line" data-split="chars" data-start="15">IPSHITA!</span></h1>
+    <p class="msg up" style="--d:2.6s">May your next chapter be filled with beautiful surprises, new adventures, endless laughter and moments worth remembering.</p>
+    <button class="btn ghost up" style="--d:3.6s" data-go="s3">Keep going ✦</button>
+  </div>
+</section>
+
+<section class="screen" id="s3">
+  <div class="inner">
+    <div class="moon sm"><i class="disc"></i></div>
+    <p class="msg big" data-split="words">In a world full of ordinary days, you make friendship feel like its own little adventure. Keep being wonderfully you.</p>
+    <div class="flowers up" style="--d:2.2s" aria-hidden="true">
+      <svg class="flower"><use href="#fl"/></svg><svg class="flower"><use href="#fl"/></svg><svg class="flower"><use href="#fl"/></svg><svg class="flower"><use href="#fl"/></svg><svg class="flower"><use href="#fl"/></svg>
+    </div>
+    <button class="btn ghost up" style="--d:2.8s" data-go="sg">Almost there ✦</button>
+  </div>
+</section>
+
+<section class="screen" id="sg">
+  <div class="inner">
+    <h2 class="title" style="font-size:clamp(30px,8.6vw,40px)"><span data-split="words">A little anime magic</span></h2>
+    <div class="strip" id="strip">
+      <figure class="card" style="--img:url(naruto1.jpg)"><img src="naruto1.jpg" alt="Anime birthday hug" loading="eager" decoding="async"><figcaption>Squad goals</figcaption></figure>
+      <figure class="card" style="--img:url(naruto2.jpg)"><img src="naruto2.jpg" alt="Happy Birthday Ipshita" loading="eager" decoding="async"><figcaption>Made just for you</figcaption></figure>
+      <figure class="card" style="--img:url(naruto3.jpg)"><img src="naruto3.jpg" alt="Anime happy smile" loading="eager" decoding="async"><figcaption>Pure happiness</figcaption></figure>
+    </div>
+    <p class="hint up" style="--d:1.4s">Swipe ➜</p>
+    <button class="btn ghost up" style="--d:1.8s" data-go="s4">Okay, one last surprise ✦</button>
+  </div>
+</section>
+
+<section class="screen" id="s4">
+  <div class="inner">
+    <div class="stage" id="stage">
+      <div class="pre">
+        <div class="env">💌</div>
+        <button class="btn" id="open">One last surprise 💌</button>
+      </div>
+      <div class="letter" aria-live="polite">
+        <p data-split="words">Happy Birthday, Ipshita! 🎂✨</p>
+        <p data-split="words" data-start="8">Keep smiling, keep annoying me, and never change. Life would be boring without our endless arguments and stupid moments.</p>
+        <p data-split="words" data-start="30">Stay happy, you idiot! 😂❤️</p>
+      </div>
+    </div>
+    <button class="btn ghost replay" id="replay">Replay from the start</button>
+  </div>
+</section>
+
+<div class="dots" id="dots"><i class="on"></i><i></i><i></i><i></i><i></i></div>
+<button id="mute" aria-label="Toggle music">🔊</button>
+<div class="vig"></div>
+<div class="bar t"></div><div class="bar b"></div>
+
+<script>
+(function(){
+  var $=function(s){return document.querySelector(s)},$$=function(s){return Array.prototype.slice.call(document.querySelectorAll(s))};
+  var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+  /* ---- split text into animated words / letters ---- */
+  $$('[data-split]').forEach(function(el){
+    var mode=el.getAttribute('data-split'),txt=el.textContent.trim(),n=+el.getAttribute('data-start')||0,
+        cls=el.closest('.letter')?'lw':'w';
+    el.setAttribute('aria-label',txt);el.textContent='';
+    function mk(t){var s=document.createElement('span');s.className=cls;s.textContent=t;s.style.setProperty('--i',n++);s.setAttribute('aria-hidden','true');return s}
+    txt.split(' ').forEach(function(word,wi,arr){
+      if(mode==='chars'){
+        var wrap=document.createElement('span');wrap.className='word';
+        Array.from(word).forEach(function(ch){wrap.appendChild(mk(ch))});el.appendChild(wrap);n++;
+      }else el.appendChild(mk(word));
+      if(wi<arr.length-1)el.appendChild(document.createTextNode(' '));
+    });
+  });
+
+  /* ---- canvas: stars, fireflies, petals, shooting stars, magic dust ---- */
+  var cv=$('#sky'),cx=cv.getContext('2d'),W,H,dpr,stars=[],flies=[],petals=[],dust=[],shoot=null,nextShoot=3000,tx=0,ty=0,ox=0,oy=0;
+  function sprite(size,draw){var c=document.createElement('canvas');c.width=c.height=size;draw(c.getContext('2d'),size);return c}
+  function glow(rgb,core){return sprite(64,function(g,s){var r=g.createRadialGradient(s/2,s/2,0,s/2,s/2,s/2);
+    r.addColorStop(0,'rgba('+rgb+',1)');r.addColorStop(core,'rgba('+rgb+',.55)');r.addColorStop(1,'rgba('+rgb+',0)');g.fillStyle=r;g.fillRect(0,0,s,s)})}
+  var starSpr=glow('235,240,255',.18),
+      cols=['255,255,255','150,185,255','200,160,255','255,170,215','255,226,150'].map(function(c){return glow(c,.25)}),
+      petalSpr=sprite(64,function(g,s){var r=g.createLinearGradient(0,0,s,s);r.addColorStop(0,'#ffe4f2');r.addColorStop(1,'#ff9ccb');
+        g.fillStyle=r;g.beginPath();g.moveTo(8,s/2);g.bezierCurveTo(14,6,s-14,8,s-6,s/2);g.bezierCurveTo(s-14,s-8,14,s-6,8,s/2);g.fill()});
+  function size(){
+    dpr=Math.min(window.devicePixelRatio||1,2);W=innerWidth;H=innerHeight;cv.width=W*dpr;cv.height=H*dpr;cx.setTransform(dpr,0,0,dpr,0,0);
+    var ns=Math.round(Math.min(95,W*H/7500));stars=[];
+    for(var i=0;i<ns;i++)stars.push({x:Math.random()*W,y:Math.random()*H,s:Math.random()*5+3,sp:Math.random()*1.2+.4,ph:Math.random()*6.28,d:Math.random()*.9+.2});
+    flies=[];for(i=0;i<26;i++)flies.push({x:Math.random()*W,y:Math.random()*H,s:Math.random()*12+8,vy:-(Math.random()*.18+.05),ph:Math.random()*6.28,sp:Math.random()*.6+.3,c:1+(i%3)});
+    petals=[];for(i=0;i<12;i++)petals.push({x:Math.random()*W,y:Math.random()*H,s:Math.random()*12+10,vy:Math.random()*.55+.3,ph:Math.random()*6.28,rot:Math.random()*6.28,vr:(Math.random()-.5)*.02});
+  }
+  function burst(x,y,n,pw){
+    pw=pw||1;
+    for(var i=0;i<n;i++){var a=Math.random()*6.283,v=(Math.random()*5.5+1.2)*pw;
+      dust.push({x:x,y:y,vx:Math.cos(a)*v,vy:Math.sin(a)*v-1.4*pw,t:0,max:80+Math.random()*90,s:Math.random()*10+6,spr:cols[i%5]})}
+  }
+  var last=performance.now();
+  function frame(now){
+    requestAnimationFrame(frame);
+    var dt=Math.min(.05,(now-last)/1000);last=now;var f=dt*60,k=Math.min(1,.06*f);
+    ox+=(tx-ox)*k;oy+=(ty-oy)*k;
+    var ax=ox+(reduce?0:Math.sin(now/7000)*.5),ay=oy+(reduce?0:Math.cos(now/9000)*.3);
+    cx.clearRect(0,0,W,H);cx.globalCompositeOperation='source-over';
+    for(var i=0;i<stars.length;i++){var s=stars[i],a=.55+.45*Math.sin(now/1000*s.sp+s.ph),z=s.s*(.85+.15*a);
+      cx.globalAlpha=a;cx.drawImage(starSpr,s.x+ax*s.d*16-z,s.y+ay*s.d*16-z,z*2,z*2)}
+    cx.globalCompositeOperation='lighter';
+    for(i=0;i<flies.length;i++){var p=flies[i];
+      if(!reduce){p.ph+=.012*f;p.y+=p.vy*f;p.x+=Math.sin(p.ph*p.sp*3)*.25*f}
+      if(p.y<-20){p.y=H+20;p.x=Math.random()*W}
+      cx.globalAlpha=.35+.35*Math.sin(p.ph*2);cx.drawImage(cols[p.c],p.x-p.s,p.y-p.s,p.s*2,p.s*2)}
+    if(!reduce){
+      nextShoot-=dt*1000;
+      if(!shoot&&nextShoot<0){shoot={x:Math.random()*W*.7+W*.3,y:Math.random()*H*.3,t:0};nextShoot=5000+Math.random()*5000}
+      if(shoot){shoot.t+=f;var sx=shoot.x-shoot.t*11,sy=shoot.y+shoot.t*5,al=Math.sin(Math.min(1,shoot.t/40)*Math.PI);
+        var g=cx.createLinearGradient(sx,sy,sx+140,sy-63);g.addColorStop(0,'rgba(255,255,255,'+al+')');g.addColorStop(1,'rgba(150,170,255,0)');
+        cx.globalAlpha=1;cx.strokeStyle=g;cx.lineWidth=2;cx.lineCap='round';cx.beginPath();cx.moveTo(sx,sy);cx.lineTo(sx+140,sy-63);cx.stroke();
+        cx.globalAlpha=al;cx.drawImage(starSpr,sx-12,sy-12,24,24);if(shoot.t>40)shoot=null}
+    }
+    for(i=dust.length-1;i>=0;i--){var d=dust[i];d.t+=f;
+      if(d.t>=d.max){dust.splice(i,1);continue}
+      var dr=Math.pow(.965,f);d.vx*=dr;d.vy=d.vy*dr+.045*f;d.x+=d.vx*f;d.y+=d.vy*f;
+      var l=1-d.t/d.max,sz=d.s*(.4+.6*l);cx.globalAlpha=l*l;cx.drawImage(d.spr,d.x-sz,d.y-sz,sz*2,sz*2)}
+    cx.globalCompositeOperation='source-over';
+    for(i=0;i<petals.length;i++){var q=petals[i];
+      if(!reduce){q.ph+=.02*f;q.rot+=q.vr*f;q.y+=q.vy*f;q.x+=Math.sin(q.ph)*.7*f}
+      if(q.y>H+20){q.y=-20;q.x=Math.random()*W}
+      cx.save();cx.translate(q.x,q.y);cx.rotate(q.rot);cx.scale(1,.55+.45*Math.abs(Math.sin(q.ph*1.3)));
+      cx.globalAlpha=.6;cx.drawImage(petalSpr,-q.s/2,-q.s/2,q.s,q.s);cx.restore()}
+    cx.globalAlpha=1;
+  }
+  addEventListener('resize',size);size();requestAnimationFrame(frame);
+  addEventListener('pointermove',function(e){tx=(e.clientX/W-.5)*2;ty=(e.clientY/H-.5)*2},{passive:true});
+  document.addEventListener('pointerdown',function(e){if(!reduce)burst(e.clientX,e.clientY,12,.45)},{passive:true});
+
+  /* ---- scene navigation ---- */
+  var ids=['s1','s2','s3','sg','s4'],dots=$$('#dots i'),locked=false;
+  function go(id){
+    if(locked)return;locked=true;setTimeout(function(){locked=false},900);
+    document.body.classList.remove('cut');void document.body.offsetWidth;document.body.classList.add('cut');
+    ids.forEach(function(s,i){var on=s===id;$('#'+s).classList.toggle('on',on);dots[i].classList.toggle('on',on)});
+    if(id==='s2'&&!reduce){setTimeout(function(){burst(W/2,H*.36,90,1.1)},1100);setTimeout(function(){burst(W*.25,H*.45,40,.9);burst(W*.75,H*.45,40,.9)},1900)}
+    if(id==='sg')setTimeout(upd,60);
+  }
+  $$('[data-go]').forEach(function(b){b.addEventListener('click',function(){go(b.getAttribute('data-go'))})});
+
+  /* ---- gallery: smooth depth on swipe ---- */
+  var strip=$('#strip'),cards=$$('.card'),tick=false;
+  function upd(){tick=false;var r=strip.getBoundingClientRect(),mid=r.left+r.width/2;
+    cards.forEach(function(c){var b=c.getBoundingClientRect(),d=Math.min(1,Math.abs(b.left+b.width/2-mid)/b.width);
+      c.style.transform='scale('+(1-.1*d).toFixed(3)+')';c.style.opacity=(1-.45*d).toFixed(3)})}
+  strip.addEventListener('scroll',function(){if(!tick){tick=true;requestAnimationFrame(upd)}},{passive:true});
+  addEventListener('resize',upd);upd();
+
+  /* ---- final letter ---- */
+  var stage=$('#stage'),rp=$('#replay');
+  $('#open').addEventListener('click',function(){
+    stage.classList.add('open');
+    if(!reduce){burst(W/2,H*.42,130,1.3);setTimeout(function(){burst(W*.2,H*.55,60,1)},600);setTimeout(function(){burst(W*.8,H*.55,60,1)},1000)}
+    setTimeout(function(){rp.classList.add('show')},5200);
+  });
+  rp.addEventListener('click',function(){stage.classList.remove('open');rp.classList.remove('show');go('s1')});
+
+  /* ---- optional music: put music.mp3 next to index.html ---- */
+  var au=new Audio(),mb=$('#mute'),want=true,started=false;au.loop=true;au.volume=.6;au.preload='auto';
+  au.addEventListener('canplay',function(){mb.classList.add('ok')});au.src='music.mp3';
+  function icon(){mb.textContent=(want&&!au.paused)?'🔊':'🔇'}
+  $('#s1 [data-go]').addEventListener('click',function(){
+    if(started)return;started=true;var r=au.play();if(r&&r.catch)r.catch(function(){});setTimeout(icon,300)});
+  mb.addEventListener('click',function(){
+    if(au.paused){want=true;au.play().catch(function(){})}else{want=false;au.pause()}setTimeout(icon,100)});
+  document.addEventListener('visibilitychange',function(){
+    if(!started)return;if(document.hidden)au.pause();else if(want)au.play().catch(function(){})});
+})();
+</script>
+</body>
+</html>
